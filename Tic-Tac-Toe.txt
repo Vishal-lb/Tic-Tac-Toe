@@ -1,6 +1,13 @@
+/*
+  This program implements a simple command-line version of Tic Tac Toe for two players.
+  It utilizes a 1-dimensional array to represent the board and provides functions for initializing the board,
+  printing the current board state, allowing players to make moves, checking for a win or draw, and switching players.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>  // For system function
 
+// Function prototypes
 void initializeBoard();
 void printBoard();
 void playerMove(int player);
@@ -8,40 +15,46 @@ int checkWin();
 int checkDraw();
 void switchPlayer(int *player);
 
-char board[10];
+char board[10];  // Array to represent the game board
 
 int main() {
-    int player = 1, status = -1;
+    int player = 1, status = -1;  // Player 1 starts first, status -1 indicates game in progress
 
+    // Initialize the board and display it
     initializeBoard();
     printBoard();
 
+    // Main game loop
     while (status == -1) {
-        playerMove(player);
-        printBoard();
+        playerMove(player);  // Player makes a move
+        printBoard();        // Display updated board
 
+        // Check if the current player has won
         if (checkWin()) {
             printf("Player %d is the Winner!\n", player);
             return 0;
         }
 
+        // Check for a draw
         if (checkDraw()) {
             printf("It's a draw!\n");
             return 0;
         }
 
-        switchPlayer(&player);
+        switchPlayer(&player);  // Switch to the next player
     }
 
     return 0;
 }
 
+// Initialize the game board with numbers representing empty spots
 void initializeBoard() {
     for (int i = 0; i < 10; i++) {
-        board[i] = '0' + i;
+        board[i] = '0' + i;  // '0' + i converts integer to character
     }
 }
 
+// Print the current state of the game board
 void printBoard() {
     system("clear");  // Use "cls" on Windows and "clear" on Unix-like systems
     printf("\n\n");
@@ -58,17 +71,18 @@ void printBoard() {
     printf("\n\n");
 }
 
+// Prompt the current player to make a move
 void playerMove(int player) {
     int input;
-    char mark = (player == 1) ? 'X' : 'O';
+    char mark = (player == 1) ? 'X' : 'O';  // Player 1 uses 'X', Player 2 uses 'O'
 
     while (1) {
         printf("Please enter number for Player %d: ", player);
         scanf("%d", &input);
 
-        // Check for invalid input
+        // Check for valid input and if the chosen spot is available
         if (input >= 1 && input <= 9 && board[input] != 'X' && board[input] != 'O') {
-            board[input] = mark;
+            board[input] = mark;  // Place player's mark on the chosen spot
             break;
         } else {
             printf("Invalid input. Please try again.\n");
@@ -76,32 +90,38 @@ void playerMove(int player) {
     }
 }
 
+// Check if any player has won the game
 int checkWin() {
-    // Winning combinations
+    // Array containing winning combinations (rows, columns, diagonals)
     int winCombos[8][3] = {
-        {1, 2, 3}, {4, 5, 6}, {7, 8, 9}, // Rows
-        {1, 4, 7}, {2, 5, 8}, {3, 6, 9}, // Columns
-        {1, 5, 9}, {3, 5, 7}  // Diagonals
+        {1, 2, 3}, {4, 5, 6}, {7, 8, 9},  // Rows
+        {1, 4, 7}, {2, 5, 8}, {3, 6, 9},  // Columns
+        {1, 5, 9}, {3, 5, 7}              // Diagonals
     };
 
+    // Check each winning combination
     for (int i = 0; i < 8; i++) {
-        if (board[winCombos[i][0]] == board[winCombos[i][1]] && board[winCombos[i][1]] == board[winCombos[i][2]]) {
-            return 1;
+        if (board[winCombos[i][0]] == board[winCombos[i][1]] &&
+            board[winCombos[i][1]] == board[winCombos[i][2]]) {
+            return 1;  // Return 1 if a player has won
         }
     }
 
-    return 0;
+    return 0;  // Return 0 if no player has won yet
 }
 
+// Check if the game is a draw
 int checkDraw() {
+    // If any spot on the board is still numbered, the game is not a draw
     for (int i = 1; i <= 9; i++) {
         if (board[i] != 'X' && board[i] != 'O') {
-            return 0;  // Not a draw if there's an empty spot
+            return 0;  // Return 0 if the game is not a draw
         }
     }
-    return 1;  // Draw if all spots are filled
+    return 1;  // Return 1 if all spots are filled and no player has won
 }
 
+// Switch between players
 void switchPlayer(int *player) {
-    *player = (*player == 1) ? 2 : 1;
+    *player = (*player == 1) ? 2 : 1;  // Change current player from 1 to 2 or vice versa
 }
