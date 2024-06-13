@@ -17,7 +17,7 @@
 
 
 ##git clone https://github.com/Vishal-lb/Tic-Tac-Toe
-cd tic-tac-toe
+  ->cd tic-tac-toe
 
 Compile the program:
 
