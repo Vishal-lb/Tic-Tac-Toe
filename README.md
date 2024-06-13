@@ -16,7 +16,7 @@
 -->Clone the repository (or download the source file):
 
 
-##git clone https://github.com/yourusername/tic-tac-toe.git
+##git clone https://github.com/Vishal-lb/Tic-Tac-Toe
 cd tic-tac-toe
 
 Compile the program:
